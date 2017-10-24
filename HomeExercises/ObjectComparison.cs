@@ -5,28 +5,87 @@ namespace HomeExercises
 {
 	public class ObjectComparison
 	{
-		[Test]
-		[Description("Проверка текущего царя")]
-		[Category("ToRefactor")]
-		public void CheckCurrentTsar()
+//		[Test]
+//		[Description("Проверка текущего царя")]
+//		[Category("ToRefactor")]
+//		public void CheckCurrentTsar()
+//		{
+//			var actualTsar = TsarRegistry.GetCurrentTsar();
+//
+//			var expectedTsar = new Person("Ivan IV The Terrible", 54, 170, 70,
+//				new Person("Vasili III of Russia", 28, 170, 60, null));
+//
+//			// Перепишите код на использование Fluent Assertions.
+//			actualTsar.Name.Should().Be(expectedTsar.Name);
+//			actualTsar.Age.Should().Be(expectedTsar.Age);
+//			actualTsar.Height.Should().Be(expectedTsar.Height);
+//			actualTsar.Weight.Should().Be(expectedTsar.Weight);
+//			
+//			actualTsar.Parent.Name.Should().Be(expectedTsar.Parent.Name);
+//			actualTsar.Parent.Age.Should().Be(expectedTsar.Parent.Age);
+//			actualTsar.Parent.Height.Should().Be(expectedTsar.Parent.Height);
+//			actualTsar.Parent.Parent.ShouldBeEquivalentTo(expectedTsar.Parent.Parent);
+//		}
+
+		private Person _actualTsar;
+		private Person _expectedTsar;
+
+		[SetUp]
+		public void LoadTsarsIntoTheMatrix()
 		{
-			var actualTsar = TsarRegistry.GetCurrentTsar();
-
-			var expectedTsar = new Person("Ivan IV The Terrible", 54, 170, 70,
+			_actualTsar = TsarRegistry.GetCurrentTsar();
+			_expectedTsar = new Person("Ivan IV The Terrible", 54, 170, 70,
 				new Person("Vasili III of Russia", 28, 170, 60, null));
-
-			// Перепишите код на использование Fluent Assertions.
-			Assert.AreEqual(actualTsar.Name, expectedTsar.Name);
-			Assert.AreEqual(actualTsar.Age, expectedTsar.Age);
-			Assert.AreEqual(actualTsar.Height, expectedTsar.Height);
-			Assert.AreEqual(actualTsar.Weight, expectedTsar.Weight);
-
-			Assert.AreEqual(expectedTsar.Parent.Name, actualTsar.Parent.Name);
-			Assert.AreEqual(expectedTsar.Parent.Age, actualTsar.Parent.Age);
-			Assert.AreEqual(expectedTsar.Parent.Height, actualTsar.Parent.Height);
-			Assert.AreEqual(expectedTsar.Parent.Parent, actualTsar.Parent.Parent);
 		}
 
+		[Test]
+		public void NameMatch()
+		{
+			_actualTsar.Name.Should().Be(_expectedTsar.Name);
+		}
+
+		[Test]
+		public void AgeMatch()
+		{
+			_actualTsar.Age.Should().Be(_expectedTsar.Age);
+		}
+
+		[Test]
+		public void HeightMatch()
+		{
+			_actualTsar.Height.Should().Be(_expectedTsar.Height);
+		}
+
+		[Test]
+		public void WeightMatch()
+		{
+			_actualTsar.Weight.Should().Be(_expectedTsar.Weight);
+		}
+
+		[Test]
+		public void ParentsNameMatch()
+		{
+			_actualTsar.Parent.Name.Should().Be(_expectedTsar.Parent.Name);
+		}
+
+		[Test]
+		public void ParentsAgeMatch()
+		{
+			_actualTsar.Parent.Age.Should().Be(_expectedTsar.Parent.Age);
+		}
+
+		[Test]
+		public void ParentsHeightMacth()
+		{
+			_actualTsar.Parent.Height.Should().Be(_expectedTsar.Parent.Height);
+		}
+
+		[Test]
+		public void ParentsParentMatch()
+		{
+			_actualTsar.Parent.Parent.Should().Be(_expectedTsar.Parent.Parent);
+		}
+		
 		[Test]
 		[Description("Альтернативное решение. Какие у него недостатки?")]
 		public void CheckCurrentTsar_WithCustomEquality()
@@ -35,7 +94,15 @@ namespace HomeExercises
 			var expectedTsar = new Person("Ivan IV The Terrible", 54, 170, 70,
 			new Person("Vasili III of Russia", 28, 170, 60, null));
 
-			// Какие недостатки у такого подхода? 
+			// Какие недостатки у такого подхода?
+			
+			// Корявый ассерт.
+			// Не понятно, какое именно из полей не правильное.
+			// Само сравнение менее читабильно в отличие от версии на Fluent Assertions,
+			// который читается почти как предложение.
+			
+			
+			// А что за прикол с ID в классе Person?
 			Assert.True(AreEqual(actualTsar, expectedTsar));
 
 		}
